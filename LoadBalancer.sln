@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoadBalancer", "LoadBalancer\LoadBalancer.csproj", "{6B8E4B42-3DCC-4D12-B147-217D40937837}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackendServer", "BackendServer\BackendServer.csproj", "{F398FC6D-08FA-435C-90ED-5915DEA59B36}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{6B8E4B42-3DCC-4D12-B147-217D40937837}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B8E4B42-3DCC-4D12-B147-217D40937837}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B8E4B42-3DCC-4D12-B147-217D40937837}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F398FC6D-08FA-435C-90ED-5915DEA59B36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F398FC6D-08FA-435C-90ED-5915DEA59B36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F398FC6D-08FA-435C-90ED-5915DEA59B36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F398FC6D-08FA-435C-90ED-5915DEA59B36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
