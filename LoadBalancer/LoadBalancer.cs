@@ -9,6 +9,10 @@ namespace LoadBalancer
 {
     class Program
     {
+        // List of backend servers
+        private static readonly string[] backendHosts = { "localhost:8080", "localhost:8081", "localhost:8082" };
+        private static int nextServerIndex = 0; // Index to keep track of the next server for round-robin
+
         static async Task Main(string[] args)
         {
             // Define the port number for the load balancer
@@ -71,16 +75,19 @@ namespace LoadBalancer
         {
             try
             {
-                // Define the hostname and port number of the backend server
-                string backendHost = "localhost";
-                int backendPort = 8080;
+                // Select the next backend server using round-robin
+                string backendHost = backendHosts[nextServerIndex];
+                nextServerIndex = (nextServerIndex + 1) % backendHosts.Length; // Update the index for round-robin
+                string[] parts = backendHost.Split(':');
+                string host = parts[0];
+                int port = int.Parse(parts[1]);
 
                 // Create a TCP client to connect to the backend server
                 using (TcpClient backendClient = new TcpClient())
                 {
                     // Connect to the backend server asynchronously
-                    Console.WriteLine($"Connecting to backend server {backendHost}:{backendPort}");
-                    await backendClient.ConnectAsync(backendHost, backendPort);
+                    Console.WriteLine($"Connecting to backend server {host}:{port}");
+                    await backendClient.ConnectAsync(host, port);
 
                     // Open streams for writing to and reading from the backend server
                     using (NetworkStream stream = backendClient.GetStream())
