@@ -30,7 +30,9 @@ namespace LoadBalancer
             // Accept and handle incoming client connections in a loop
             while (true)
             {
+                Console.WriteLine("Waiting for incoming client connection...");
                 TcpClient client = await listener.AcceptTcpClientAsync(); // Accept incoming client connection
+                Console.WriteLine("Client connected!");
                 HandleClient(client); // Handle the client connection asynchronously
             }
         }
@@ -68,6 +70,7 @@ namespace LoadBalancer
             {
                 // Close the client connection
                 client.Close();
+                Console.WriteLine("Client connection closed.");
             }
         }
 
