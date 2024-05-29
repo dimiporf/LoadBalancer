@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoadBalancer", "LoadBalancer\LoadBalancer.csproj", "{6B8E4B42-3DCC-4D12-B147-217D40937837}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoadBalancer", "LoadBalancer\LoadBalancer.csproj", "{6B8E4B42-3DCC-4D12-B147-217D40937837}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackendServer", "BackendServer\BackendServer.csproj", "{F398FC6D-08FA-435C-90ED-5915DEA59B36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BackendServer", "BackendServer\BackendServer.csproj", "{F398FC6D-08FA-435C-90ED-5915DEA59B36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackendServer2", "BackendServer2\BackendServer2.csproj", "{7D5BA4B3-80BE-4C37-9EA6-0DCDEC96AD16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackendServer3", "BackendServer3\BackendServer3.csproj", "{350A6A01-2150-4707-8025-CEE1C669F479}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{F398FC6D-08FA-435C-90ED-5915DEA59B36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F398FC6D-08FA-435C-90ED-5915DEA59B36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F398FC6D-08FA-435C-90ED-5915DEA59B36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D5BA4B3-80BE-4C37-9EA6-0DCDEC96AD16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D5BA4B3-80BE-4C37-9EA6-0DCDEC96AD16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D5BA4B3-80BE-4C37-9EA6-0DCDEC96AD16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D5BA4B3-80BE-4C37-9EA6-0DCDEC96AD16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{350A6A01-2150-4707-8025-CEE1C669F479}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{350A6A01-2150-4707-8025-CEE1C669F479}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{350A6A01-2150-4707-8025-CEE1C669F479}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{350A6A01-2150-4707-8025-CEE1C669F479}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
