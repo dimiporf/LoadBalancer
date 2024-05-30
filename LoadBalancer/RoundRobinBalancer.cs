@@ -2,6 +2,9 @@
 
 namespace LoadBalancer
 {
+    /// <summary>
+    /// Class responsible for managing the round-robin load balancing algorithm.
+    /// </summary>
     class RoundRobinLoadBalancer
     {
         // List of all backend servers
@@ -16,6 +19,10 @@ namespace LoadBalancer
         private static List<(string, int)> healthyServers = new List<(string, int)>(AllBackendServers);
         private static int nextServerIndex = 0; // Index to keep track of the next server for round-robin
 
+        /// <summary>
+        /// Gets the next backend server using the round-robin algorithm.
+        /// </summary>
+        /// <returns>The next backend server.</returns>
         public static (string, int) GetNextBackendServer()
         {
             lock (healthyServers)
@@ -33,6 +40,10 @@ namespace LoadBalancer
             }
         }
 
+        /// <summary>
+        /// Sets the list of healthy backend servers.
+        /// </summary>
+        /// <param name="servers">The list of healthy servers.</param>
         public static void SetHealthyServers(List<(string, int)> servers)
         {
             lock (healthyServers)

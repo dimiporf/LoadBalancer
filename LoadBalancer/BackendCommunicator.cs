@@ -5,8 +5,16 @@ using System.Threading.Tasks;
 
 namespace LoadBalancer
 {
+    /// <summary>
+    /// Class responsible for forwarding requests to backend servers.
+    /// </summary>
     class BackendCommunicator
     {
+        /// <summary>
+        /// Forwards the incoming request to a backend server using round-robin algorithm.
+        /// </summary>
+        /// <param name="request">The request to be forwarded.</param>
+        /// <returns>The response from the backend server.</returns>
         public static async Task<string> ForwardRequestToBackend(string request)
         {
             try

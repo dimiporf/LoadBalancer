@@ -6,8 +6,15 @@ using System.Threading.Tasks;
 
 namespace LoadBalancer
 {
+    /// <summary>
+    /// Class responsible for handling client connections.
+    /// </summary>
     class ClientHandler
     {
+        /// <summary>
+        /// Handles an incoming client connection.
+        /// </summary>
+        /// <param name="client">The TCP client representing the connected client.</param>
         public static async Task HandleClient(TcpClient client)
         {
             try
