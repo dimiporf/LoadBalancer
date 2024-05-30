@@ -9,6 +9,20 @@ namespace LoadBalancer
     {
         static async Task Main(string[] args)
         {
+            if (args.Length < 2)
+            {
+                Console.WriteLine("Usage: LoadBalancer <healthCheckPeriodInSeconds> <healthCheckUrl>");
+                return;
+            }
+
+            if (!int.TryParse(args[0], out int healthCheckPeriod))
+            {
+                Console.WriteLine("Invalid health check period");
+                return;
+            }
+
+            string healthCheckUrl = args[1];
+
             // Define the port number for the load balancer
             int port = 80;
             // Specify the IP address to listen on (Any IP address)
@@ -20,6 +34,9 @@ namespace LoadBalancer
 
             // Log that the load balancer has started
             Console.WriteLine($"Load balancer started on port {port}");
+
+            // Start health check task
+            _ = HealthChecker.StartHealthChecks(healthCheckPeriod, healthCheckUrl);
 
             // Accept and handle incoming client connections in a loop
             while (true)

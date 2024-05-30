@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "LoadBalancer": {
+      "commandName": "Project",
+      "commandLineArgs": "10 /healthcheck"
+    }
+  }
+}
