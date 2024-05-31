@@ -19,6 +19,7 @@ namespace LoadBalancer
         {
             while (true)
             {
+                Console.WriteLine("Starting connection cleanup...");
                 foreach (var kvp in BackendCommunicator.ConnectionPools)
                 {
                     var backendServer = kvp.Key;
@@ -30,15 +31,18 @@ namespace LoadBalancer
                         if (!connection.Connected || IsConnectionIdle(connection))
                         {
                             connectionsToClean.Add(connection);
+                            Console.WriteLine($"Marking connection to {backendServer.Item1}:{backendServer.Item2} for cleanup");
                         }
                     }
 
                     while (connectionsToClean.TryTake(out var connection))
                     {
                         connection.Close();
+                        Console.WriteLine($"Closed and removed idle connection to {backendServer.Item1}:{backendServer.Item2}");
                     }
                 }
 
+                Console.WriteLine("Connection cleanup completed. Waiting for next cleanup cycle...");
                 await Task.Delay(TimeSpan.FromMinutes(1));
             }
         }
@@ -47,6 +51,7 @@ namespace LoadBalancer
         {
             // Implement logic to check if the connection is idle.
             // This could be based on a timestamp of the last use or other criteria.
+            // For demonstration, we'll assume no actual idle detection logic is implemented yet.
             return false;
         }
     }

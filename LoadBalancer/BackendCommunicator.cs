@@ -29,6 +29,8 @@ namespace LoadBalancer
                 string host = backendServer.Item1;
                 int port = backendServer.Item2;
 
+                Console.WriteLine($"Selected backend server: {host}:{port}");
+
                 // Get or create a connection pool for the backend server
                 var connectionPool = ConnectionPools.GetOrAdd(backendServer, _ => new ConcurrentBag<TcpClient>());
 
@@ -37,6 +39,11 @@ namespace LoadBalancer
                 {
                     backendClient = new TcpClient();
                     await backendClient.ConnectAsync(host, port);
+                    Console.WriteLine($"Established new connection to backend server {host}:{port}");
+                }
+                else
+                {
+                    Console.WriteLine($"Reusing existing connection to backend server {host}:{port}");
                 }
 
                 // Open streams for writing to and reading from the backend server
@@ -45,14 +52,17 @@ namespace LoadBalancer
                 using (StreamReader reader = new StreamReader(stream))
                 {
                     // Send the request to the backend server
+                    Console.WriteLine("Sending request to backend server...");
                     await writer.WriteLineAsync(request);
                     await writer.FlushAsync();
 
                     // Wait for and read the response from the backend server
+                    Console.WriteLine("Waiting for response from backend server...");
                     string response = await reader.ReadToEndAsync();
 
                     // Return the connection to the pool
                     connectionPool.Add(backendClient);
+                    Console.WriteLine($"Returned connection to pool for backend server {host}:{port}");
 
                     return response;
                 }
