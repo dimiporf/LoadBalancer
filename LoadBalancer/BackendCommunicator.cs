@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Net.Sockets;
 using System.Threading.Tasks;
@@ -10,8 +11,12 @@ namespace LoadBalancer
     /// </summary>
     class BackendCommunicator
     {
+        // Public connection pools for each backend server
+        public static readonly ConcurrentDictionary<(string, int), ConcurrentBag<TcpClient>> ConnectionPools
+            = new ConcurrentDictionary<(string, int), ConcurrentBag<TcpClient>>();
+
         /// <summary>
-        /// Forwards the incoming request to a backend server using round-robin algorithm.
+        /// Forwards the incoming request to a backend server using round-robin algorithm with Keep-Alive support.
         /// </summary>
         /// <param name="request">The request to be forwarded.</param>
         /// <returns>The response from the backend server.</returns>
@@ -24,28 +29,32 @@ namespace LoadBalancer
                 string host = backendServer.Item1;
                 int port = backendServer.Item2;
 
-                // Create a TCP client to connect to the backend server
-                using (TcpClient backendClient = new TcpClient())
+                // Get or create a connection pool for the backend server
+                var connectionPool = ConnectionPools.GetOrAdd(backendServer, _ => new ConcurrentBag<TcpClient>());
+
+                // Try to get an existing connection from the pool
+                if (!connectionPool.TryTake(out TcpClient backendClient) || !backendClient.Connected)
                 {
-                    // Connect to the backend server asynchronously
-                    Console.WriteLine($"Connecting to backend server {host}:{port}");
+                    backendClient = new TcpClient();
                     await backendClient.ConnectAsync(host, port);
+                }
 
-                    // Open streams for writing to and reading from the backend server
-                    using (NetworkStream stream = backendClient.GetStream())
-                    using (StreamWriter writer = new StreamWriter(stream))
-                    using (StreamReader reader = new StreamReader(stream))
-                    {
-                        // Send the request to the backend server
-                        Console.WriteLine("Sending request to backend server...");
-                        await writer.WriteLineAsync(request);
-                        await writer.FlushAsync();
+                // Open streams for writing to and reading from the backend server
+                using (NetworkStream stream = backendClient.GetStream())
+                using (StreamWriter writer = new StreamWriter(stream))
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    // Send the request to the backend server
+                    await writer.WriteLineAsync(request);
+                    await writer.FlushAsync();
 
-                        // Wait for and read the response from the backend server
-                        Console.WriteLine("Waiting for response from backend server...");
-                        string response = await reader.ReadToEndAsync();
-                        return response;
-                    }
+                    // Wait for and read the response from the backend server
+                    string response = await reader.ReadToEndAsync();
+
+                    // Return the connection to the pool
+                    connectionPool.Add(backendClient);
+
+                    return response;
                 }
             }
             catch (Exception ex)

@@ -16,21 +16,18 @@ namespace LoadBalancer
         /// <param name="args">Command-line arguments.</param>
         static async Task Main(string[] args)
         {
-            // Check if command-line arguments are provided
             if (args.Length < 2)
             {
                 Console.WriteLine("Usage: LoadBalancer <healthCheckPeriodInSeconds> <healthCheckUrl>");
                 return;
             }
 
-            // Parse the health check period from the command-line arguments
             if (!int.TryParse(args[0], out int healthCheckPeriod))
             {
                 Console.WriteLine("Invalid health check period");
                 return;
             }
 
-            // Get the health check URL from the command-line arguments
             string healthCheckUrl = args[1];
 
             // Define the port number for the load balancer
@@ -48,13 +45,16 @@ namespace LoadBalancer
             // Start health check task
             _ = HealthChecker.StartHealthChecks(healthCheckPeriod, healthCheckUrl);
 
+            // Start connection cleanup task
+            _ = ConnectionCleaner.StartConnectionCleanup();
+
             // Accept and handle incoming client connections in a loop
             while (true)
             {
                 Console.WriteLine("Waiting for incoming client connection...");
                 TcpClient client = await listener.AcceptTcpClientAsync(); // Accept incoming client connection
                 Console.WriteLine("Client connected!");
-                _ = ClientHandler.HandleClient(client); // Handle the client connection asynchronously
+                ClientHandler.HandleClient(client); // Handle the client connection asynchronously
             }
         }
     }
